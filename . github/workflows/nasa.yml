@@ -1,0 +1,20 @@
+name: CICD Static Deployment
+
+on:
+  push:
+    branches:
+    - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: deploy via SSH
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOSTS }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_KEYS }}
+          script: |
+            cd /home/ubuntu/site-under-construction
+            sudo git pull origin main
